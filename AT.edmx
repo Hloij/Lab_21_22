@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище Lab_21Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Объём_работ_на_объекте">
+          <Key>
+            <PropertyRef Name="Код_объекта" />
+            <PropertyRef Name="Код_работы" />
+          </Key>
+          <Property Name="Код_объекта" Type="int" Nullable="false" />
+          <Property Name="Код_работы" Type="int" Nullable="false" />
+          <Property Name="Физ_объем_ед_измерения" Type="float" />
+        </EntityType>
+        <EntityType Name="связб">
+          <Key>
+            <PropertyRef Name="код_работы" />
+          </Key>
+          <Property Name="код_работы" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Справочник_видов_работ">
+          <Key>
+            <PropertyRef Name="Код_вида_работ" />
+          </Key>
+          <Property Name="Код_вида_работ" Type="int" Nullable="false" />
+          <Property Name="Наименование_вида_работ" Type="nvarchar" MaxLength="50" />
+          <Property Name="Единица_измерения" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Справочник_окончани_работ">
+          <Key>
+            <PropertyRef Name="Код_объекта" />
+          </Key>
+          <Property Name="Код_объекта" Type="int" Nullable="false" />
+          <Property Name="Дата_окончания_работ" Type="date" />
+        </EntityType>
+        <EntityType Name="Справочник_расценок">
+          <Key>
+            <PropertyRef Name="Код_работы" />
+            <PropertyRef Name="Код_вида_работ" />
+          </Key>
+          <Property Name="Код_работы" Type="int" Nullable="false" />
+          <Property Name="Код_вида_работ" Type="int" Nullable="false" />
+          <Property Name="Наименование_работ" Type="nvarchar" MaxLength="50" />
+          <Property Name="Расценка_за_ед_имерения" Type="int" />
+        </EntityType>
+        <EntityType Name="Справочник_строительных_объектов">
+          <Key>
+            <PropertyRef Name="Код_объекта" />
+          </Key>
+          <Property Name="Код_объекта" Type="int" Nullable="false" />
+          <Property Name="Наименование_объекта" Type="nvarchar" MaxLength="50" />
+          <Property Name="Населенный_пункт" Type="nvarchar" MaxLength="50" />
+          <Property Name="Адрес_объекта" Type="nvarchar" MaxLength="50" />
+          <Property Name="Дата_начала_работ" Type="date" />
+        </EntityType>
+        <Association Name="FK_Объём_работ_на_объекте_связб">
+          <End Role="связб" Type="Self.связб" Multiplicity="1" />
+          <End Role="Объём_работ_на_объекте" Type="Self.Объём_работ_на_объекте" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="связб">
+              <PropertyRef Name="код_работы" />
+            </Principal>
+            <Dependent Role="Объём_работ_на_объекте">
+              <PropertyRef Name="Код_работы" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Объём_работ_на_объекте_Справочник_строительных_объектов">
+          <End Role="Справочник_строительных_объектов" Type="Self.Справочник_строительных_объектов" Multiplicity="1" />
+          <End Role="Объём_работ_на_объекте" Type="Self.Объём_работ_на_объекте" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Справочник_строительных_объектов">
+              <PropertyRef Name="Код_объекта" />
+            </Principal>
+            <Dependent Role="Объём_работ_на_объекте">
+              <PropertyRef Name="Код_объекта" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Справочник_окончани_работ_Справочник_строительных_объектов">
+          <End Role="Справочник_строительных_объектов" Type="Self.Справочник_строительных_объектов" Multiplicity="1" />
+          <End Role="Справочник_окончани_работ" Type="Self.Справочник_окончани_работ" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Справочник_строительных_объектов">
+              <PropertyRef Name="Код_объекта" />
+            </Principal>
+            <Dependent Role="Справочник_окончани_работ">
+              <PropertyRef Name="Код_объекта" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Справочник_расценок_связб">
+          <End Role="связб" Type="Self.связб" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Справочник_расценок" Type="Self.Справочник_расценок" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="связб">
+              <PropertyRef Name="код_работы" />
+            </Principal>
+            <Dependent Role="Справочник_расценок">
+              <PropertyRef Name="Код_работы" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Справочник_расценок_Справочник_видов_работ">
+          <End Role="Справочник_видов_работ" Type="Self.Справочник_видов_работ" Multiplicity="1" />
+          <End Role="Справочник_расценок" Type="Self.Справочник_расценок" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Справочник_видов_работ">
+              <PropertyRef Name="Код_вида_работ" />
+            </Principal>
+            <Dependent Role="Справочник_расценок">
+              <PropertyRef Name="Код_вида_работ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Lab_21ModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Объём_работ_на_объекте" EntityType="Self.Объём_работ_на_объекте" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="связб" EntityType="Self.связб" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Справочник_видов_работ" EntityType="Self.Справочник_видов_работ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Справочник_окончани_работ" EntityType="Self.Справочник_окончани_работ" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Справочник_расценок" EntityType="Self.Справочник_расценок" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Справочник_строительных_объектов" EntityType="Self.Справочник_строительных_объектов" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Объём_работ_на_объекте_связб" Association="Self.FK_Объём_работ_на_объекте_связб">
+            <End Role="связб" EntitySet="связб" />
+            <End Role="Объём_работ_на_объекте" EntitySet="Объём_работ_на_объекте" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Объём_работ_на_объекте_Справочник_строительных_объектов" Association="Self.FK_Объём_работ_на_объекте_Справочник_строительных_объектов">
+            <End Role="Справочник_строительных_объектов" EntitySet="Справочник_строительных_объектов" />
+            <End Role="Объём_работ_на_объекте" EntitySet="Объём_работ_на_объекте" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Справочник_окончани_работ_Справочник_строительных_объектов" Association="Self.FK_Справочник_окончани_работ_Справочник_строительных_объектов">
+            <End Role="Справочник_строительных_объектов" EntitySet="Справочник_строительных_объектов" />
+            <End Role="Справочник_окончани_работ" EntitySet="Справочник_окончани_работ" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Справочник_расценок_связб" Association="Self.FK_Справочник_расценок_связб">
+            <End Role="связб" EntitySet="связб" />
+            <End Role="Справочник_расценок" EntitySet="Справочник_расценок" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Справочник_расценок_Справочник_видов_работ" Association="Self.FK_Справочник_расценок_Справочник_видов_работ">
+            <End Role="Справочник_видов_работ" EntitySet="Справочник_видов_работ" />
+            <End Role="Справочник_расценок" EntitySet="Справочник_расценок" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Lab_21Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Объём_работ_на_объекте">
+          <Key>
+            <PropertyRef Name="Код_объекта" />
+            <PropertyRef Name="Код_работы" />
+          </Key>
+          <Property Name="Код_объекта" Type="Int32" Nullable="false" />
+          <Property Name="Код_работы" Type="Int32" Nullable="false" />
+          <Property Name="Физ_объем_ед_измерения" Type="Double" />
+          <NavigationProperty Name="связб" Relationship="Self.FK_Объём_работ_на_объекте_связб" FromRole="Объём_работ_на_объекте" ToRole="связб" />
+          <NavigationProperty Name="Справочник_строительных_объектов" Relationship="Self.FK_Объём_работ_на_объекте_Справочник_строительных_объектов" FromRole="Объём_работ_на_объекте" ToRole="Справочник_строительных_объектов" />
+        </EntityType>
+        <EntityType Name="связб">
+          <Key>
+            <PropertyRef Name="код_работы" />
+          </Key>
+          <Property Name="код_работы" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Объём_работ_на_объекте" Relationship="Self.FK_Объём_работ_на_объекте_связб" FromRole="связб" ToRole="Объём_работ_на_объекте" />
+          <NavigationProperty Name="Справочник_расценок" Relationship="Self.FK_Справочник_расценок_связб" FromRole="связб" ToRole="Справочник_расценок" />
+        </EntityType>
+        <EntityType Name="Справочник_видов_работ">
+          <Key>
+            <PropertyRef Name="Код_вида_работ" />
+          </Key>
+          <Property Name="Код_вида_работ" Type="Int32" Nullable="false" />
+          <Property Name="Наименование_вида_работ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Единица_измерения" Type="String" Nullable="false" />
+          <NavigationProperty Name="Справочник_расценок" Relationship="Self.FK_Справочник_расценок_Справочник_видов_работ" FromRole="Справочник_видов_работ" ToRole="Справочник_расценок" />
+        </EntityType>
+        <EntityType Name="Справочник_окончани_работ">
+          <Key>
+            <PropertyRef Name="Код_объекта" />
+          </Key>
+          <Property Name="Код_объекта" Type="Int32" Nullable="false" />
+          <Property Name="Дата_окончания_работ" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Справочник_строительных_объектов" Relationship="Self.FK_Справочник_окончани_работ_Справочник_строительных_объектов" FromRole="Справочник_окончани_работ" ToRole="Справочник_строительных_объектов" />
+        </EntityType>
+        <EntityType Name="Справочник_расценок">
+          <Key>
+            <PropertyRef Name="Код_работы" />
+            <PropertyRef Name="Код_вида_работ" />
+          </Key>
+          <Property Name="Код_работы" Type="Int32" Nullable="false" />
+          <Property Name="Код_вида_работ" Type="Int32" Nullable="false" />
+          <Property Name="Наименование_работ" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Расценка_за_ед_имерения" Type="Int32" />
+          <NavigationProperty Name="связб" Relationship="Self.FK_Справочник_расценок_связб" FromRole="Справочник_расценок" ToRole="связб" />
+          <NavigationProperty Name="Справочник_видов_работ" Relationship="Self.FK_Справочник_расценок_Справочник_видов_работ" FromRole="Справочник_расценок" ToRole="Справочник_видов_работ" />
+        </EntityType>
+        <EntityType Name="Справочник_строительных_объектов">
+          <Key>
+            <PropertyRef Name="Код_объекта" />
+          </Key>
+          <Property Name="Код_объекта" Type="Int32" Nullable="false" />
+          <Property Name="Наименование_объекта" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Населенный_пункт" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Адрес_объекта" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Дата_начала_работ" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Объём_работ_на_объекте" Relationship="Self.FK_Объём_работ_на_объекте_Справочник_строительных_объектов" FromRole="Справочник_строительных_объектов" ToRole="Объём_работ_на_объекте" />
+          <NavigationProperty Name="Справочник_окончани_работ" Relationship="Self.FK_Справочник_окончани_работ_Справочник_строительных_объектов" FromRole="Справочник_строительных_объектов" ToRole="Справочник_окончани_работ" />
+        </EntityType>
+        <Association Name="FK_Объём_работ_на_объекте_связб">
+          <End Role="связб" Type="Self.связб" Multiplicity="1" />
+          <End Role="Объём_работ_на_объекте" Type="Self.Объём_работ_на_объекте" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="связб">
+              <PropertyRef Name="код_работы" />
+            </Principal>
+            <Dependent Role="Объём_работ_на_объекте">
+              <PropertyRef Name="Код_работы" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Объём_работ_на_объекте_Справочник_строительных_объектов">
+          <End Role="Справочник_строительных_объектов" Type="Self.Справочник_строительных_объектов" Multiplicity="1" />
+          <End Role="Объём_работ_на_объекте" Type="Self.Объём_работ_на_объекте" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Справочник_строительных_объектов">
+              <PropertyRef Name="Код_объекта" />
+            </Principal>
+            <Dependent Role="Объём_работ_на_объекте">
+              <PropertyRef Name="Код_объекта" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Справочник_расценок_связб">
+          <End Role="связб" Type="Self.связб" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Справочник_расценок" Type="Self.Справочник_расценок" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="связб">
+              <PropertyRef Name="код_работы" />
+            </Principal>
+            <Dependent Role="Справочник_расценок">
+              <PropertyRef Name="Код_работы" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Справочник_расценок_Справочник_видов_работ">
+          <End Role="Справочник_видов_работ" Type="Self.Справочник_видов_работ" Multiplicity="1" />
+          <End Role="Справочник_расценок" Type="Self.Справочник_расценок" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Справочник_видов_работ">
+              <PropertyRef Name="Код_вида_работ" />
+            </Principal>
+            <Dependent Role="Справочник_расценок">
+              <PropertyRef Name="Код_вида_работ" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Справочник_окончани_работ_Справочник_строительных_объектов">
+          <End Role="Справочник_строительных_объектов" Type="Self.Справочник_строительных_объектов" Multiplicity="1" />
+          <End Role="Справочник_окончани_работ" Type="Self.Справочник_окончани_работ" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Справочник_строительных_объектов">
+              <PropertyRef Name="Код_объекта" />
+            </Principal>
+            <Dependent Role="Справочник_окончани_работ">
+              <PropertyRef Name="Код_объекта" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Lab_21Entities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Объём_работ_на_объекте" EntityType="Self.Объём_работ_на_объекте" />
+          <EntitySet Name="связб" EntityType="Self.связб" />
+          <EntitySet Name="Справочник_видов_работ" EntityType="Self.Справочник_видов_работ" />
+          <EntitySet Name="Справочник_окончани_работ" EntityType="Self.Справочник_окончани_работ" />
+          <EntitySet Name="Справочник_расценок" EntityType="Self.Справочник_расценок" />
+          <EntitySet Name="Справочник_строительных_объектов" EntityType="Self.Справочник_строительных_объектов" />
+          <AssociationSet Name="FK_Объём_работ_на_объекте_связб" Association="Self.FK_Объём_работ_на_объекте_связб">
+            <End Role="связб" EntitySet="связб" />
+            <End Role="Объём_работ_на_объекте" EntitySet="Объём_работ_на_объекте" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Объём_работ_на_объекте_Справочник_строительных_объектов" Association="Self.FK_Объём_работ_на_объекте_Справочник_строительных_объектов">
+            <End Role="Справочник_строительных_объектов" EntitySet="Справочник_строительных_объектов" />
+            <End Role="Объём_работ_на_объекте" EntitySet="Объём_работ_на_объекте" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Справочник_расценок_связб" Association="Self.FK_Справочник_расценок_связб">
+            <End Role="связб" EntitySet="связб" />
+            <End Role="Справочник_расценок" EntitySet="Справочник_расценок" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Справочник_расценок_Справочник_видов_работ" Association="Self.FK_Справочник_расценок_Справочник_видов_работ">
+            <End Role="Справочник_видов_работ" EntitySet="Справочник_видов_работ" />
+            <End Role="Справочник_расценок" EntitySet="Справочник_расценок" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Справочник_окончани_работ_Справочник_строительных_объектов" Association="Self.FK_Справочник_окончани_работ_Справочник_строительных_объектов">
+            <End Role="Справочник_строительных_объектов" EntitySet="Справочник_строительных_объектов" />
+            <End Role="Справочник_окончани_работ" EntitySet="Справочник_окончани_работ" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Lab_21ModelContainer" CdmEntityContainer="Lab_21Entities1">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Lab_21Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Объём_работ_на_объекте">
+            <EntityTypeMapping TypeName="Lab_21Model.Объём_работ_на_объекте">
+              <MappingFragment StoreEntitySet="Объём_работ_на_объекте">
+                <ScalarProperty Name="Код_объекта" ColumnName="Код_объекта" />
+                <ScalarProperty Name="Код_работы" ColumnName="Код_работы" />
+                <ScalarProperty Name="Физ_объем_ед_измерения" ColumnName="Физ_объем_ед_измерения" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="связб">
+            <EntityTypeMapping TypeName="Lab_21Model.связб">
+              <MappingFragment StoreEntitySet="связб">
+                <ScalarProperty Name="код_работы" ColumnName="код_работы" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Справочник_видов_работ">
+            <EntityTypeMapping TypeName="Lab_21Model.Справочник_видов_работ">
+              <MappingFragment StoreEntitySet="Справочник_видов_работ">
+                <ScalarProperty Name="Код_вида_работ" ColumnName="Код_вида_работ" />
+                <ScalarProperty Name="Наименование_вида_работ" ColumnName="Наименование_вида_работ" />
+                <ScalarProperty Name="Единица_измерения" ColumnName="Единица_измерения" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Справочник_окончани_работ">
+            <EntityTypeMapping TypeName="Lab_21Model.Справочник_окончани_работ">
+              <MappingFragment StoreEntitySet="Справочник_окончани_работ">
+                <ScalarProperty Name="Код_объекта" ColumnName="Код_объекта" />
+                <ScalarProperty Name="Дата_окончания_работ" ColumnName="Дата_окончания_работ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Справочник_расценок">
+            <EntityTypeMapping TypeName="Lab_21Model.Справочник_расценок">
+              <MappingFragment StoreEntitySet="Справочник_расценок">
+                <ScalarProperty Name="Код_работы" ColumnName="Код_работы" />
+                <ScalarProperty Name="Код_вида_работ" ColumnName="Код_вида_работ" />
+                <ScalarProperty Name="Наименование_работ" ColumnName="Наименование_работ" />
+                <ScalarProperty Name="Расценка_за_ед_имерения" ColumnName="Расценка_за_ед_имерения" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Справочник_строительных_объектов">
+            <EntityTypeMapping TypeName="Lab_21Model.Справочник_строительных_объектов">
+              <MappingFragment StoreEntitySet="Справочник_строительных_объектов">
+                <ScalarProperty Name="Код_объекта" ColumnName="Код_объекта" />
+                <ScalarProperty Name="Наименование_объекта" ColumnName="Наименование_объекта" />
+                <ScalarProperty Name="Населенный_пункт" ColumnName="Населенный_пункт" />
+                <ScalarProperty Name="Адрес_объекта" ColumnName="Адрес_объекта" />
+                <ScalarProperty Name="Дата_начала_работ" ColumnName="Дата_начала_работ" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

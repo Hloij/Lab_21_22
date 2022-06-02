@@ -1,0 +1,16 @@
+﻿<Window x:Class="Lab_21_Kiko.linq23"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab_21_Kiko"
+        mc:Ignorable="d"
+         Title="Linq2" Height="167.181" Width="203.939">
+    <Grid>
+        <TextBox x:Name="Id_product" HorizontalAlignment="Left" Height="20" Width="50" VerticalAlignment="Top" Margin="10,20,0,0"/>
+        <Label Content="Номер объекта" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70,15,0,0"/>
+        <Button Content="Рассчет" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,101,0,0" Width="88" Click="Rez_ClIck"/>
+        <TextBox x:Name="Rez" HorizontalAlignment="Left" Height="20" Width="50" VerticalAlignment="Top" IsReadOnly="True" Margin="10,62,0,0"/>
+        <Label Content="Месяцев работы" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70,62,0,0"/>
+    </Grid>
+</Window>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7b45dce0d2724bb29556dd8cb69d8d0a" Name="Diagram1">
+        <EntityTypeShape EntityType="Lab_21Model.sysdiagrams" Width="1.5" PointX="5.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Lab_21Model.Объём_работ_на_объекте" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Lab_21Model.связб" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="Lab_21Model.Справочник_видов_работ" Width="1.5" PointX="0.75" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Lab_21Model.Справочник_окончани_работ" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Lab_21Model.Справочник_расценок" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Lab_21Model.Справочник_строительных_объектов" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <AssociationConnector Association="Lab_21Model.FK_Объём_работ_на_объекте_связб" ManuallyRouted="false" />
+        <AssociationConnector Association="Lab_21Model.FK_Объём_работ_на_объекте_Справочник_строительных_объектов" ManuallyRouted="false" />
+        <AssociationConnector Association="Lab_21Model.FK_Справочник_расценок_связб" ManuallyRouted="false" />
+        <AssociationConnector Association="Lab_21Model.FK_Справочник_расценок_Справочник_видов_работ" ManuallyRouted="false" />
+        <AssociationConnector Association="Lab_21Model.FK_Справочник_окончани_работ_Справочник_строительных_объектов" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

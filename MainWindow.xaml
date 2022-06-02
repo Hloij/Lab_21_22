@@ -1,0 +1,83 @@
+﻿<Window x:Class="Lab_21_Kiko.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab_21_Kiko"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Activated="Window_Activated">
+    <Grid>
+        <Menu HorizontalAlignment="Stretch" Height="20"  VerticalAlignment="Top" >
+            <MenuItem Header="Запрос № 1" Click="Linq_1"/>
+            <MenuItem Header="Запрос № 2" Click="Linq_2"/>
+            <MenuItem Header="Запрос № 1" Click="Linq_21"/>
+            <MenuItem Header="Запрос № 2" Click="Linq_22"/>
+            <MenuItem Header="Запрос № 3" Click="Linq_23"/>
+            <MenuItem Header="Запрос № 4" Click="Linq_24"/>
+            <MenuItem Header="Запрос № 5" Click="Linq_25"/>
+            
+        </Menu>
+       
+        <TabControl HorizontalAlignment="Stretch" Height="400" Margin="0,20,0,0" VerticalAlignment="Top" >
+            <TabItem Header="Виды работ">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_1" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Код_вида_работ" Binding="{Binding Код_вида_работ}"/>
+                            <DataGridTextColumn Header="Наименование_вида_работ" Binding="{Binding Наименование_вида_работ}"/>
+                            <DataGridTextColumn Header="Единица_измерения" Binding="{Binding Единица_измерения}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Разценка работ">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_2" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Код_работы" Binding="{Binding Код_работы}"/>
+                            <DataGridTextColumn Header="Код_вида_работ" Binding="{Binding Код_вида_работ}"/>
+                            <DataGridTextColumn Header="Наименование_работ" Binding="{Binding Наименование_работ}"/>
+                            <DataGridTextColumn Header="Расценка_за_ед_имерения" Binding="{Binding Расценка_за_ед_имерения}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Объекты">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_3" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Код_объекта" Binding="{Binding Код_объекта}"/>
+                            <DataGridTextColumn Header="Наименование_объекта" Binding="{Binding Наименование_объекта}"/>
+                            <DataGridTextColumn Header="Населенный_пункт" Binding="{Binding Населенный_пункт}"/>
+                            <DataGridTextColumn Header="Адрес_объекта" Binding="{Binding Адрес_объекта}"/>
+                            <DataGridTextColumn Header="Дата_начала_работ" Binding="{Binding Дата_начала_работ}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Объем работы на объекте">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_4" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Код_объекта" Binding="{Binding Код_объекта}"/>
+                            <DataGridTextColumn Header="Код_работы" Binding="{Binding Код_работы}"/>
+                            <DataGridTextColumn Header="Физ_объем_ед_измерения" Binding="{Binding Физ_объем_ед_измерения}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Даты окончания">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_5" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Код_объекта" Binding="{Binding Код_объекта}"/>
+                            <DataGridTextColumn Header="Дата_окончания_работ" Binding="{Binding Дата_окончания_работ}"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
